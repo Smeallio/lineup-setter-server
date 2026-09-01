@@ -1,7 +1,8 @@
 import type { Knex } from 'knex';
 import path from 'path';
 import * as dotenv from 'dotenv';
-dotenv.config();
+
+dotenv.config({ path: path.resolve(process.cwd(), '..', '.env') });
 
 const config: { [key: string]: Knex.Config } = {
     development : {
@@ -14,7 +15,7 @@ const config: { [key: string]: Knex.Config } = {
             database: process.env.DB_NAME,
         },
         migrations: {
-            directory: path.resolve(process.cwd(), 'src', 'migrations'),
+            directory: path.resolve(process.cwd(), 'migrations'),
         },
     }
 };

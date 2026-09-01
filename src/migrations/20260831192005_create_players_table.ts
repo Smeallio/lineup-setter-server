@@ -2,11 +2,10 @@ import type { Knex } from "knex";
 
 export async function up(knex: Knex): Promise<void> {
   return knex.schema.createTable("players", (table) => {
-    table.increments("id").primary();
+    table.string("id", 16).primary();
     table.string("name").notNullable();
     table
-      .integer("manager_id")
-      .unsigned()
+      .string("manager_id", 16)
       .notNullable()
       .references("id")
       .inTable("managers")
