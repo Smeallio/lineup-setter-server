@@ -2,10 +2,10 @@ import express from "express";
 import cors from "cors";
 import * as dotenv from "dotenv";
 
+dotenv.config();
+
 import playerRoutes from "./routes/players.routes";
 import managerRoutes from "./routes/managers.routes";
-
-dotenv.config();
 
 const app = express();
 app.use(cors());
