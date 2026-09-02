@@ -1,8 +1,9 @@
-import { Router } from 'express';
-import { getManagerById } from '../controllers/managers.controllers';
+import { Router } from "express";
+import { requireAuth } from "../middleware/auth.middleware";
+import { getManagerById } from "../controllers/managers.controllers";
 
 const router = Router();
 
-router.get('/:managerId', getManagerById);
+router.route("/").get(requireAuth, getManagerById);
 
 export default router;
