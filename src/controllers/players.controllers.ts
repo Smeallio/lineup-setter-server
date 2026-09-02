@@ -12,7 +12,9 @@ export const getPlayersByManagerId = async (
     res.status(200).json(players);
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: "Error retrieving players from the database" });
+    res
+      .status(500)
+      .json({ error: "Error retrieving players from the database" });
   }
 };
 
@@ -36,5 +38,31 @@ export const addPlayer = async (req: AuthenticatedRequest, res: Response) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Error adding player to the database" });
+  }
+};
+
+export const deletePlayer = async (
+  req: AuthenticatedRequest,
+  res: Response
+) => {
+  try {
+    const { id } = req.params;
+    const deletedCount = await db("players")
+      .where({ id, manager_id: req.managerId })
+      .del();
+
+    if (deletedCount === 0) {
+      return res
+        .status(404)
+        .json({
+          error:
+            "Player not found or you do not have permission to delete this player",
+        });
+    }
+
+    res.status(200).json({ message: "Player deleted successfully" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Error deleting player from the database" });
   }
 };
