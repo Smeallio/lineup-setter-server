@@ -32,7 +32,7 @@ export const addPlayer = async (req: AuthenticatedRequest, res: Response) => {
       manager_id: req.managerId,
     });
 
-    const [newPlayer] = await db("players").where("id", publicId);
+    const [newPlayer] = await db("players").where("id", publicId); //Why the square brackets? 
 
     res.status(201).json(newPlayer);
   } catch (err) {

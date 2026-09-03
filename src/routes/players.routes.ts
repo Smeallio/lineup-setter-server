@@ -3,14 +3,14 @@ import { requireAuth } from "../middleware/auth.middleware";
 import {
   addPlayer,
   deletePlayer,
-  getPlayersByManagerId,
+  getPlayersByCurrentManager,
 } from "../controllers/players.controllers";
 
 const router = Router();
 
 router
   .route("/")
-  .get(requireAuth, getPlayersByManagerId)
+  .get(requireAuth, getPlayersByCurrentManager)
   .post(requireAuth, addPlayer);
 
 router.route("/:id").delete(requireAuth, deletePlayer);
