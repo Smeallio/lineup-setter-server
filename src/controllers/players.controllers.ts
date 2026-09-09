@@ -3,7 +3,7 @@ import { Response } from "express";
 import { AuthenticatedRequest } from "../models/authentication";
 import { generateId } from "../utils/generateId";
 
-export const getPlayersByManagerId = async (
+export const getPlayersByCurrentManager = async (
   req: AuthenticatedRequest,
   res: Response
 ) => {
@@ -32,7 +32,7 @@ export const addPlayer = async (req: AuthenticatedRequest, res: Response) => {
       manager_id: req.managerId,
     });
 
-    const [newPlayer] = await db("players").where("id", publicId); //Why the square brackets? 
+    const newPlayer = await db("players").where("id", publicId).first();
 
     res.status(201).json(newPlayer);
   } catch (err) {

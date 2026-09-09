@@ -1,12 +1,12 @@
-import type { Knex } from 'knex';
-import path from 'path';
-import * as dotenv from 'dotenv';
+import type { Knex } from "knex";
+import path from "path";
+import * as dotenv from "dotenv";
 
-dotenv.config({ path: path.resolve(process.cwd(), '..', '.env') });
+dotenv.config({ path: path.resolve(process.cwd(), "..", ".env") });
 
 const config: { [key: string]: Knex.Config } = {
     development : {
-        client: 'mysql2',
+        client: "mysql2",
         connection: {
             host: process.env.DB_HOST,
             port: Number(process.env.DB_PORT),
@@ -15,7 +15,7 @@ const config: { [key: string]: Knex.Config } = {
             database: process.env.DB_NAME,
         },
         migrations: {
-            directory: path.resolve(process.cwd(), 'migrations'),
+            directory: path.resolve(process.cwd(), "migrations"),
         },
     }
 };
