@@ -8,7 +8,9 @@ export const getPlayersByCurrentManager = async (
   res: Response
 ) => {
   try {
-    const players = await db("players").where("manager_id", req.managerId);
+    const players = await db("players")
+      .select("players.id", "players.name")
+      .where("manager_id", req.managerId);
     res.status(200).json(players);
   } catch (err) {
     console.error(err);
@@ -52,12 +54,10 @@ export const deletePlayer = async (
       .del();
 
     if (deletedCount === 0) {
-      return res
-        .status(404)
-        .json({
-          error:
-            "Player not found or you do not have permission to delete this player",
-        });
+      return res.status(404).json({
+        error:
+          "Player not found or you do not have permission to delete this player",
+      });
     }
 
     res.status(200).json({ message: "Player deleted successfully" });
