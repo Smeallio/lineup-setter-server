@@ -9,7 +9,7 @@ export const getPositionsByCurrentManager = async (
 ) => {
   try {
     const positions = await db("positions")
-      .select("positions.id", "positions.name")
+      .select("positions.id", "positions.position")
       .where("manager_id", req.managerId);
     res.status(200).json(positions);
   } catch (err) {
