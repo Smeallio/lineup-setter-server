@@ -27,15 +27,12 @@ export const addPlayer = async (req: AuthenticatedRequest, res: Response) => {
       return res.status(400).json({ error: "Player name is required" });
     }
     const publicId = generateId();
-
     await db("players").insert({
       id: publicId,
       name,
       manager_id: req.managerId,
     });
-
     const newPlayer = await db("players").where("id", publicId).first();
-
     res.status(201).json(newPlayer);
   } catch (err) {
     console.error(err);
@@ -52,14 +49,12 @@ export const deletePlayer = async (
     const deletedCount = await db("players")
       .where({ id, manager_id: req.managerId })
       .del();
-
     if (deletedCount === 0) {
       return res.status(404).json({
         error:
           "Player not found or you do not have permission to delete this player",
       });
     }
-
     res.status(200).json({ message: "Player deleted successfully" });
   } catch (err) {
     console.error(err);
