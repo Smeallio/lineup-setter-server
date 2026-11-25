@@ -9,7 +9,7 @@ export const getPositionsByCurrentManager = async (
 ) => {
   try {
     const positions = await db("positions")
-      .select("positions.id", "positions.position")
+      .select("positions.id", "positions.position", "positions.field")
       .where("manager_id", req.managerId);
     res.status(200).json(positions);
   } catch (err) {
@@ -22,15 +22,19 @@ export const getPositionsByCurrentManager = async (
 
 export const addPosition = async (req: AuthenticatedRequest, res: Response) => {
   try {
-    const { position } = req.body;
+    const { position, field } = req.body;
     if (!position) {
       return res.status(400).json({ error: "Position name is required" });
+    }
+    if (field && !["infield", "outfield"].includes(field)) {
+      return res.status(400).json({ error: "Invalid field value" });
     }
     const publicId = generateId();
     await db("positions").insert({
       id: publicId,
       position,
       manager_id: req.managerId,
+      field
     });
     const newPosition = await db("positions").where("id", publicId).first();
     res.status(201).json(newPosition);
